@@ -1,0 +1,36 @@
+{
+  "name": "jnrudge",
+  "version": "1.0.0",
+  "description": "Web site for jnrudge creative",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "James Rudge",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jnrudge/jnrudge.git"
+  },
+  "bugs": {
+    "url": "https://trello.com/b/xOuIwoKj/website"
+  },
+  "homepage": "https://github.com/jnrudge/jnrudge#readme",
+  "devDependencies": {
+    "browser-sync": "^2.18.12",
+    "del": "^3.0.0",
+    "gulp-bower": "0.0.13",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-filter": "^5.0.0",
+    "gulp-jshint": "^2.0.4",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-phplint": "^0.3.4",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.1.0",
+    "gulp-sass-lint": "^1.3.2",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-uglify": "^3.0.0",
+    "main-bower-files": "^2.13.1"
+  }
+}
