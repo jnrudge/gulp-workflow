@@ -1,7 +1,7 @@
 {
-  "name": "jnrudge",
+  "name": "Gulp Wordpress Workflow",
   "version": "1.0.0",
-  "description": "Web site for jnrudge creative",
+  "description": "Gulp Workflow for Wordpress sites",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,12 +10,12 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jnrudge/jnrudge.git"
+    "url": "git+https://github.com/jnrudge/gulp-workflow.git"
   },
   "bugs": {
-    "url": "https://trello.com/b/xOuIwoKj/website"
+    "url": ""
   },
-  "homepage": "https://github.com/jnrudge/jnrudge#readme",
+  "homepage": "https://github.com/jnrudge/gulp-workflow#readme",
   "devDependencies": {
     "browser-sync": "^2.18.12",
     "del": "^3.0.0",
