@@ -4,8 +4,8 @@
 'use strict';
 
 // Settings
-var mampUrl = "localhost:8888/jnrudge";
-var siteName = "jnrudge";
+var mampUrl = "localhost:8888/rudge";
+var siteName = "rudge";
 var masterCssFile = "main"; // don't use style.css as this will clash with Wordpress
 var masterJsFile = "functions";
 
@@ -16,16 +16,17 @@ var plugins = require("gulp-load-plugins")({
 	replaceString: /\bgulp[\-.]/
 });
 
-// Grab SASS / CSS Files from Bower Components
-gulp.task('vendorSCSS', function(){
-	gulp.src(plugins.mainBowerFiles())
-		.pipe (plugins.filter('.css'))
+// Grab CSS Files from Bower Components
+gulp.task('vendorCSS', function(){
+	return gulp.src(plugins.mainBowerFiles())
+		.pipe (plugins.filter('**/*.css'))
 		.pipe(gulp.dest('scss/vendor'));
 });
 
 gulp.task('vendorJS', function () {
-	gulp.src(plugins.mainBowerFiles())
-		.pipe(plugins.filter('.js'))
+	//console.log(plugins.mainBowerFiles());
+	return gulp.src(plugins.mainBowerFiles())
+		.pipe(plugins.filter('**/*.js'))
 		.pipe(gulp.dest('js/vendor'));
 });
 	
@@ -44,13 +45,20 @@ gulp.task('compileSCSS', function(){
 
 // Combine JS files, master file will be called functions.js, make sure no files are called functions.js - Gets minified in the build process
 gulp.task('concatJS', function(){
-	return gulp.src(['js/modules/*.js', '!js/' + masterJsFile + '.js'])
+	return gulp.src(['js/modules/*.js', '!js/' + masterJsFile + '.js', 'js/vendor/*.js'])
 		.pipe (plugins.sourcemaps.init())
 		.pipe (plugins.concat(masterJsFile + '.js'))
 		.pipe (plugins.sourcemaps.write('./'))
 		.pipe (gulp.dest('js'))
-		.pipe (browserSync.reload());
+		.pipe (browserSync.reload({
+			stream: true
+		}));
 });
+
+gulp.task('watch-js', ['concatJS'], function(done){
+	browserSync().reload();
+	done();
+})
 
 // Minify JS
 gulp.task('minifyJS', function(){
@@ -77,47 +85,17 @@ gulp.task('clean', function(){
 	plugins.del(['dist', 'css/mainnpm.css*', 'js/app*.js*']);
 });
 
-// Linters - Work in Progess
-gulp.task('lintSASS', function(){
-	return gulp.src('scss/*.scss')
-		.pipe (plugins.sassLint())
-		.pipe (plugins.sassLint.format())
-		.pipe (plugins.sassLintfailOnError());
-});
-
-gulp.task('lintPHP', function(){
-	return gulp.src('*.php')
-		.pipe (plugins.phplint());
-});
-
-gulp.task('lintJS',  function(){
-	return gulp.src('js/*.js')
-		.pipe (plugins.jshint())
-		.pipe (plugins.jshint.reporter('default'));
-});
-
-// Build task - Work in progess
-gulp.task('build', ['minifyCSS', 'minifyJS'],function(){
-	gulp.src(['**/*.php', 'style.css'])
-		.pipe (gulp.dest('../' + siteName));
-	gulp.src('css/' + masterCssFile + '.min.css')
-		.pipe(plugins.cssnano())
-		.pipe(gulp.dest('../' + siteName + '/css'));
-	gulp.src('js/' + masterJsFile + '.min.js')
-		.pipe(plugins.uglify())
-		.pipe(gulp.dest('../ ' + siteName + '/js'));
-});
-
 // Browser sync init
 gulp.task('browserSync', function(){
 	browserSync.init({
-		proxy: mampUrl
+		proxy: mampUrl,
+		open: false
 	})
 });
 
 // Defaut 'main' task
 gulp.task('default', ['browserSync'], function(){
-	gulp.watch('scss/**/*.scss', ['compileSASS']);
+	gulp.watch('scss/**/*.scss', ['compileSCSS']);
 	gulp.watch('js/**/*.js', ['concatJS']);
 	gulp.watch('*.php').on('change', browserSync.reload);
 });
